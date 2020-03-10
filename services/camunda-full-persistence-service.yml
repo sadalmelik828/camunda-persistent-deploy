@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: camunda-full-persistence
+  name: camunda-full-persistence-service
+  namespace: gke-ns-camunda
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: bpm-8080-to-8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: bpm-9404-to-9404-tcp
+    port: 9404
+    protocol: TCP
+    targetPort: 9404
+  - name: bpm-8000-to-8000-tcp
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: camunda-full-persistence
+  sessionAffinity: None
+  type: LoadBalancer

@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  DB_DRIVER: org.postgresql.Driver
+  DB_URL: jdbc:postgresql://127.0.0.1:5432/camunda
+  DB_VALIDATE_ON_BORROW: "true"
+  DEBUG: "true"
+  JMX_PROMETHEUS: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    app: camunda-full-persistence
+  name: camunda-full-persistence-configmap
+  namespace: gke-ns-camunda

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camunda-full-persistence
+  labels:
+    app: camunda-full-persistence
+  namespace: gke-ns-camunda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camunda-full-persistence
+  template:
+    metadata:
+      labels:
+        app: camunda-full-persistence
+    spec:
+      containers:
+        - name: camunda-full-persistence
+          image: gcr.io/poc-full-hybrid-264520/camunda-bpm-platform@sha256:0e425c8881adbcbedbcfdc868c817e1727495678f6f483c84956a29ef375a29b
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_DRIVER
+                  name: camunda-full-persistence-configmap
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: camunda-full-persistence-configmap
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  key: DEBUG
+                  name: camunda-full-persistence-configmap
+            - name: JMX_PROMETHEUS
+              valueFrom:
+                configMapKeyRef:
+                  key: JMX_PROMETHEUS
+                  name: camunda-full-persistence-configmap
+            - name: DB_VALIDATE_ON_BORROW
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_VALIDATE_ON_BORROW
+                  name: camunda-full-persistence-configmap
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          command: ["/cloud_sql_proxy",
+                    "-instances=poc-full-hybrid-264520:us-central1:poc-fh-camunda-db=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+          securityContext:
+            runAsUser: 2
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
