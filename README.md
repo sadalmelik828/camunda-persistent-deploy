@@ -33,13 +33,13 @@ A continuación se indica la manera de desplegar un servidor tomcat con el motor
     - Ejecute el siguiente comando para crear una llave de autenticación con la cuenta de servicio:  
     `gcloud iam service-accounts keys create key.json --iam-account [SERVICE_ACCOUNT_EMAIL]`
 5. Desplegar el contenedor de camunda en **Google Kubernetes Engine**.
-    - En este paso se requiere la previa creación de un *cluster Kubernetes*. Si aún no lo tiene, puede crearlo con el siguiente comando:
+    - En este paso se requiere la previa creación de un *cluster Kubernetes*. Si aún no lo tiene, puede crearlo con el siguiente comando:  
     `gcloud container clusters create [CLUSTER_NAME] --zone us-central1-a --machine-type=n1-standard-2 --enable-autorepair --enable-autoscaling --max-nodes=10 --min-nodes=1`
-    - Conectarse al cluster previamente creado.
+    - Conectarse al cluster previamente creado.  
     `gcloud container clusters get-credentials [CLUSTER_NAME] --zone us-central1-a`
-    - Crear un *Kubernetes Secret* a partir de la llave de la cuenta de servicio.
+    - Crear un *Kubernetes Secret* a partir de la llave de la cuenta de servicio.  
     `kubectl create secret generic cloudsql-instance-credentials --from-file=credentials.json=key.json`
-    - Crear un *kubernetes Secret* a partir de valores literales en linea. Se puede agregar n valores sensibles en dicho *Secret*.
+    - Crear un *kubernetes Secret* a partir de valores literales en linea. Se puede agregar n valores sensibles en dicho *Secret*.  
     `kubectl create secret generic cloudsql-db-credentials --from-literal=username=[DB_USER] --from-literal=password=[DB_PASS] --from-literal=dbname=[DB_NAME]`
 6. Usar el archivo de configmap con los valores previamente ajustados según la necesidad.  
 `kubectl create -f [FILE_CONFIGMAP].yaml`
