@@ -4,7 +4,7 @@ metadata:
   name: camunda-full-persistence
   labels:
     app: camunda-full-persistence
-  namespace: gke-ns-camunda
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -17,6 +17,7 @@ spec:
     spec:
       containers:
         - name: camunda-full-persistence
+          # Here must be change the project and id of image to use
           image: gcr.io/poc-full-hybrid-264520/camunda-bpm-platform@sha256:0e425c8881adbcbedbcfdc868c817e1727495678f6f483c84956a29ef375a29b
           ports:
             - containerPort: 8080
