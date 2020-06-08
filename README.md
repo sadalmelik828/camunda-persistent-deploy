@@ -1,6 +1,6 @@
 ## Despliegue de Camunda con Persistencia en Google Cloud Platform
 
-A continuación se indica la manera de desplegar un servidor tomcat con el motor de Camunda. Los pasos mencionados los puede realizar directamente desde la shell de GCP o si tiene configurado el Google Cloud SDK en su Laptop tambien se puede hacer desde allí. En caso de que desee hacer el despliegue con un namespace personalizado, deberá tener en cuenta que los elementos creados estén disponibles para dicho namespace.
+A continuación se indica la manera de desplegar un servidor tomcat con el motor de Camunda. Los pasos mencionados los puede realizar directamente desde la shell de GCP o si tiene configurado el Google Cloud SDK en su Laptop tambien se puede hacer desde allí. En caso de que desee hacer el despliegue con un namespace personalizado dentro del cluster, deberá tener en cuenta que los elementos creados estén asociados a dicho namespace.
 
 1. Subir imagen oficial de Camunda BPM Platform Edition Community al repositorio GCP. [Acá](https://hub.docker.com/r/camunda/camunda-bpm-platform) encuentra la imagen de docker.
 2. Activar el API de SQL Admin GCP.
@@ -8,6 +8,8 @@ A continuación se indica la manera de desplegar un servidor tomcat con el motor
     `gcloud config set project [PROJECT_ID]`
     - Activar el API.  
     `gcloud services enable sqladmin.googleapis.com`
+    - Verificar que queda activo SQL Admin API
+    `gcloud services list --enabled`
 3. Crear una instancia SQL.
     - Ejecutar el siguiente comando para crear una instancia de PostgreSQL:  
     `gcloud sql instances create --gce-zone us-central1-a --database-version POSTGRES_11 --memory 4 --cpu 1 [NAME_INSTANCE]`
