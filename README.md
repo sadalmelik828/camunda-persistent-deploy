@@ -1,6 +1,6 @@
 ## Despliegue de Camunda con Persistencia en Google Cloud Platform
 
-A continuación se indica la manera de desplegar un servidor tomcat con el motor de Camunda. Los pasos mencionados los puede realizar directamente desde la shell de GCP o si tiene configurado el Google Cloud SDK en su Laptop tambien se puede hacer desde allí.
+A continuación se indica la manera de desplegar un servidor tomcat con el motor de Camunda. Los pasos mencionados los puede realizar directamente desde la shell de GCP o si tiene configurado el Google Cloud SDK en su Laptop tambien se puede hacer desde allí. En caso de que desee hacer el despliegue con un namespace personalizado, deberá tener en cuenta que los elementos creados estén disponibles para dicho namespace.
 
 1. Subir imagen oficial de Camunda BPM Platform Edition Community al repositorio GCP. [Acá](https://hub.docker.com/r/camunda/camunda-bpm-platform) encuentra la imagen de docker.
 2. Activar el API de SQL Admin GCP.
@@ -40,7 +40,7 @@ A continuación se indica la manera de desplegar un servidor tomcat con el motor
     - Crear un *Kubernetes Secret* a partir de la llave de la cuenta de servicio.  
     `kubectl create secret generic cloudsql-instance-credentials --from-file=credentials.json=key.json`
     - Crear un *kubernetes Secret* a partir de valores literales en linea. Se puede agregar n valores sensibles en dicho *Secret*.  
-    `kubectl create secret generic cloudsql-db-credentials --from-literal=username=[DB_USER] --from-literal=password=[DB_PASS] --from-literal=dbname=[DB_NAME]`
+    `kubectl create secret generic cloudsql-db-credentials --from-literal=username=[DB_USER] --from-literal=password=[DB_PASS]`
 6. Usar el archivo de configmap con los valores previamente ajustados según la necesidad.  
 `kubectl create -f [FILE_CONFIGMAP].yaml`
 7. Usar el archivo de despliegue con los valores previamente ajustados según considere necesario.  
