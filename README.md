@@ -8,7 +8,7 @@ A continuación se indica la manera de desplegar un servidor tomcat con el motor
     `gcloud config set project [PROJECT_ID]`
     - Activar el API.  
     `gcloud services enable sqladmin.googleapis.com`
-    - Verificar que queda activo SQL Admin API
+    - Verificar que queda activo SQL Admin API.  
     `gcloud services list --enabled`
 3. Crear una instancia SQL.
     - Ejecutar el siguiente comando para crear una instancia de PostgreSQL:  
