@@ -10,4 +10,4 @@ metadata:
   labels:
     app: camunda-full-persistence
   name: camunda-full-persistence-configmap
-  namespace: gke-ns-camunda
+  namespace: default
