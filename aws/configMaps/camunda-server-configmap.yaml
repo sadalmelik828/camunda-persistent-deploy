@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  DB_DRIVER: org.postgresql.Driver
+  DB_URL: jdbc:postgresql://postgresql13coe.abcdef.us-west-2.rds.amazonaws.com:5432/camunda
+  DB_VALIDATE_ON_BORROW: "true"
+  DEBUG: "false"
+  JMX_PROMETHEUS: "false"
+kind: ConfigMap
+metadata:
+  labels:
+    app: camunda-server
+  name: camunda-server-configmap
+  namespace: camunda

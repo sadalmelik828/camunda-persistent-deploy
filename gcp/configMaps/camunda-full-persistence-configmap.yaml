@@ -8,6 +8,6 @@ data:
 kind: ConfigMap
 metadata:
   labels:
-    app: camunda-full-persistence
-  name: camunda-full-persistence-configmap
-  namespace: default
+    app: camunda-server
+  name: camunda-server-configmap
+  namespace: camunda

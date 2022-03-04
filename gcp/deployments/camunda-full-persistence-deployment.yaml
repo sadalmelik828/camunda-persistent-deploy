@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: camunda-full-persistence
+  name: camunda-server
   labels:
-    app: camunda-full-persistence
-  namespace: default
+    app: camunda-server
+  namespace: camunda
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: camunda-full-persistence
+      app: camunda-server
   template:
     metadata:
       labels:
-        app: camunda-full-persistence
+        app: camunda-server
     spec:
       containers:
-        - name: camunda-full-persistence
-          # Here must be change the project and id of image to use
-          image: gcr.io/poc-full-hybrid-264520/camunda-bpm-platform@sha256:0e425c8881adbcbedbcfdc868c817e1727495678f6f483c84956a29ef375a29b
+        - name: camunda-server
+          # En caso necesario cambiar endpoint de imagen
+          image: gcr.io/poc-full-hybrid-264520/camunda-bpm-platform:latest
           ports:
             - containerPort: 8080
           env:
@@ -26,27 +26,27 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: DB_DRIVER
-                  name: camunda-full-persistence-configmap
+                  name: camunda-server-configmap
             - name: DB_URL
               valueFrom:
                 configMapKeyRef:
                   key: DB_URL
-                  name: camunda-full-persistence-configmap
+                  name: camunda-server-configmap
             - name: DEBUG
               valueFrom:
                 configMapKeyRef:
                   key: DEBUG
-                  name: camunda-full-persistence-configmap
+                  name: camunda-server-configmap
             - name: JMX_PROMETHEUS
               valueFrom:
                 configMapKeyRef:
                   key: JMX_PROMETHEUS
-                  name: camunda-full-persistence-configmap
+                  name: camunda-server-configmap
             - name: DB_VALIDATE_ON_BORROW
               valueFrom:
                 configMapKeyRef:
                   key: DB_VALIDATE_ON_BORROW
-                  name: camunda-full-persistence-configmap
+                  name: camunda-server-configmap
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -59,6 +59,7 @@ spec:
                   key: password
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          # Cambiar la URL de la instancia SQL
           command: ["/cloud_sql_proxy",
                     "-instances=poc-full-hybrid-264520:us-central1:poc-fh-camunda-db=tcp:5432",
                     "-credential_file=/secrets/cloudsql/credentials.json"]

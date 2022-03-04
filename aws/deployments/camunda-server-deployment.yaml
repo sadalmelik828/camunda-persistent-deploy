@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camunda-server
+  labels:
+    app: camunda-server
+  namespace: camunda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camunda-server
+  template:
+    metadata:
+      labels:
+        app: camunda-server
+    spec:
+      containers:
+        - name: camunda-server
+          image: 1234567890.dkr.ecr.us-west-2.amazonaws.com/camunda-bpm-platform:tomcat-auth
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_DRIVER
+                  name: camunda-server-configmap
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: camunda-server-configmap
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  key: DEBUG
+                  name: camunda-server-configmap
+            - name: JMX_PROMETHEUS
+              valueFrom:
+                configMapKeyRef:
+                  key: JMX_PROMETHEUS
+                  name: camunda-server-configmap
+            - name: DB_VALIDATE_ON_BORROW
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_VALIDATE_ON_BORROW
+                  name: camunda-server-configmap
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
