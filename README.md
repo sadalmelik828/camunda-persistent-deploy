@@ -13,8 +13,8 @@ En el presente repositorio se muestra una serie de pasos para desplegar un servi
 
 Las indicaciones se ha separado de la siguiente manera:
 
-- AWS
-- GCP
+- [AWS](https://github.com/sadalmelik828/camunda-persistent-deploy/tree/master/aws)
+- [GCP](https://github.com/sadalmelik828/camunda-persistent-deploy/tree/master/gcp)
 - Helm Chart
 
 ## Información adicional
